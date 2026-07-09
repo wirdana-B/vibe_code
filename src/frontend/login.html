@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistem Monitoring Robot</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <!-- Logo Section -->
+            <div class="logo-container">
+                <img src="https://www.polibatam.ac.id/wp-content/uploads/2024/01/cropped-cropped-01_Logo_1_Utama_Polibatam_Vertikal@2x.png" alt="Logo Polibatam">
+            </div>
+            
+            <!-- Header Section -->
+            <h1 class="login-title">Selamat Datang</h1>
+            <p class="login-subtitle">Silakan masuk untuk mengakses Sistem Monitoring Robot.</p>
+            
+            <!-- Form Section -->
+            <form id="login-form">
+                <!-- Email Field -->
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-envelope input-icon"></i>
+                        <input type="email" id="email" placeholder="wirdanadana88@gmail.com" required>
+                    </div>
+                </div>
+                
+                <!-- Password Field -->
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" id="password" placeholder="Masukkan password Anda" required>
+                        <i class="fa-solid fa-eye-slash toggle-password" id="toggle-password" title="Lihat/Sembunyikan Password"></i>
+                    </div>
+                    <!-- Static Validation Message -->
+                    <div class="error-message" id="password-error">* Password tidak boleh kosong.</div>
+                </div>
+                
+                <!-- Additional Options Section -->
+                <div class="options-row">
+                    <label class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <span>Ingat saya</span>
+                    </label>
+                    <a href="#" class="forgot-password">Lupa password?</a>
+                </div>
+                
+                <!-- Submit Button -->
+                <button type="submit" class="login-button">Masuk</button>
+            </form>
+            
+            <!-- Footer Section -->
+            <div class="footer-text">
+                Belum punya akun? <a href="#">Daftar di sini</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Client-side Logic -->
+    <script>
+        // Toggle password visibility functionality
+        const togglePassword = document.querySelector('#toggle-password');
+        const passwordField = document.querySelector('#password');
+
+        togglePassword.addEventListener('click', function () {
+            // Toggle type attribute
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            
+            // Toggle icon visual
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        // Basic Static Validation
+        const form = document.querySelector('#login-form');
+        const passwordError = document.querySelector('#password-error');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevent page reload
+            const emailVal = document.querySelector('#email').value;
+            const passVal = passwordField.value;
+
+            // Simple validation check
+            if (passVal.trim() === '') {
+                passwordError.style.display = 'block';
+                passwordField.parentElement.classList.add('error');
+            } else {
+                passwordError.style.display = 'none';
+                passwordField.parentElement.classList.remove('error');
+                alert(`Simulasi Login Berhasil!\nEmail: ${emailVal}`);
+            }
+        });
+        
+        // Hide error message when user starts typing
+        passwordField.addEventListener('input', function() {
+            passwordError.style.display = 'none';
+            passwordField.parentElement.classList.remove('error');
+        });
+    </script>
+</body>
+</html>
