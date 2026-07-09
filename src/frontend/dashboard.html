@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistem Monitoring Robot</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/dashboard.css">
+</head>
+<body>
+    <!-- Topbar / Navbar -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <img src="https://www.polibatam.ac.id/wp-content/uploads/2024/01/cropped-cropped-01_Logo_1_Utama_Polibatam_Vertikal@2x.png" alt="Logo Polibatam" class="nav-logo">
+            <h1 class="nav-title">Sistem Monitoring Robot</h1>
+        </div>
+        <div class="navbar-right">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
+                <span class="user-name">Operator - Wirdana</span>
+            </div>
+            <!-- Logout Button redirects to root/login -->
+            <a href="/" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Keluar</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-container">
+        <!-- Dashboard Header -->
+        <header class="dashboard-header">
+            <h2>Overview Kendaraan AGV</h2>
+            <p>Pemantauan real-time status baterai dan posisi unit.</p>
+        </header>
+
+        <!-- Monitoring Grid -->
+        <div class="monitoring-grid">
+            
+            <!-- Card Posisi Robot -->
+            <div class="monitor-card position-card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-location-crosshairs"></i> Posisi Robot AGV-01</h3>
+                    <span class="status-badge online">Online</span>
+                </div>
+                <div class="card-body">
+                    <div class="info-text">
+                        <strong>Zona Perakitan</strong>
+                        <span>(X: 12.5, Y: 8.2)</span>
+                    </div>
+                    <!-- Grid Map Visual -->
+                    <div class="grid-map-visual">
+                        <div class="grid-map">
+                            <!-- Dot indicating robot position -->
+                            <div class="robot-dot"></div>
+                            <!-- grid lines simulated by background in CSS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card Status Battery -->
+            <div class="monitor-card battery-card">
+                <div class="card-header">
+                    <h3><i class="fa-solid fa-car-battery"></i> Status Baterai</h3>
+                </div>
+                <div class="card-body">
+                    <div class="battery-info">
+                        <span class="battery-label">Kapasitas Tersisa</span>
+                        <span class="battery-percentage" id="battery-text">85%</span>
+                    </div>
+                    <!-- Battery Visual Container -->
+                    <div class="battery-container">
+                        <div class="battery-body">
+                            <!-- Battery Level Progress Bar -->
+                            <div class="battery-level green" id="battery-level" style="width: 85%;"></div>
+                        </div>
+                        <div class="battery-nub"></div>
+                    </div>
+                    
+                    <!-- Interactive Simulation Slider (for demo purposes) -->
+                    <div class="simulation-tools">
+                        <label for="battery-simulator">Simulasi Perubahan Level Baterai:</label>
+                        <input type="range" id="battery-simulator" min="0" max="100" value="85">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Client-side Logic for Battery Simulation -->
+    <script>
+        const batterySlider = document.getElementById('battery-simulator');
+        const batteryLevel = document.getElementById('battery-level');
+        const batteryText = document.getElementById('battery-text');
+
+        // Update UI when slider moves
+        batterySlider.addEventListener('input', function() {
+            const val = parseInt(this.value);
+            batteryText.textContent = val + '%';
+            batteryLevel.style.width = val + '%';
+
+            // Remove existing color classes
+            batteryLevel.classList.remove('green', 'yellow', 'red', 'blinking');
+
+            // Apply new class based on specs
+            if (val > 50) {
+                batteryLevel.classList.add('green');
+            } else if (val >= 20 && val <= 50) {
+                batteryLevel.classList.add('yellow');
+            } else {
+                batteryLevel.classList.add('red', 'blinking');
+            }
+        });
+    </script>
+</body>
+</html>

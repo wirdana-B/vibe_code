@@ -1,0 +1,357 @@
+/* =========================================
+   Sistem Monitoring Robot - Dashboard CSS
+   ========================================= */
+
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-color: #f8fafc; /* Latar belakang abu-abu sangat muda */
+    --card-bg: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --border-color: #e2e8f0;
+    
+    /* Status Colors */
+    --status-green: #10b981;
+    --status-yellow: #f59e0b;
+    --status-red: #ef4444;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #ffffff;
+    height: 70px;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.02);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.nav-logo {
+    height: 40px;
+    object-fit: contain;
+}
+
+.nav-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-main);
+    border-left: 2px solid var(--border-color);
+    padding-left: 16px;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #e0e7ff;
+    color: var(--primary-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-main);
+}
+
+.logout-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: #fee2e2;
+    color: var(--status-red);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+    background-color: #fca5a5;
+    color: #991b1b;
+}
+
+/* Dashboard Container */
+.dashboard-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px;
+}
+
+.dashboard-header {
+    margin-bottom: 32px;
+}
+
+.dashboard-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.dashboard-header p {
+    color: var(--text-muted);
+    font-size: 15px;
+}
+
+/* Grid Layout */
+.monitoring-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 24px;
+}
+
+/* Monitoring Cards */
+.monitor-card {
+    background-color: var(--card-bg);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.monitor-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+    transform: translateY(-2px);
+}
+
+.card-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8fafc;
+}
+
+.card-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-header h3 i {
+    color: var(--primary-color);
+}
+
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-badge.online {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.card-body {
+    padding: 24px;
+}
+
+/* Posisi Robot Card */
+.info-text {
+    font-size: 18px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.info-text strong {
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.info-text span {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* Grid Map Visual */
+.grid-map-visual {
+    width: 100%;
+    height: 180px;
+    background-color: #f1f5f9;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+    /* Simulate Grid with background pattern */
+    background-image: 
+        linear-gradient(var(--border-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.robot-dot {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    /* Position for X:12.5, Y:8.2 scaled purely for visual demo */
+    left: 60%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+}
+
+/* Battery Card */
+.battery-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+}
+
+.battery-label {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.battery-percentage {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.battery-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.battery-body {
+    flex-grow: 1;
+    height: 48px;
+    border: 3px solid var(--border-color);
+    border-radius: 12px;
+    padding: 4px;
+    background-color: #fff;
+    position: relative;
+}
+
+.battery-nub {
+    width: 8px;
+    height: 24px;
+    background-color: var(--border-color);
+    border-radius: 0 4px 4px 0;
+}
+
+.battery-level {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.4s ease, background-color 0.4s ease;
+}
+
+/* Battery Colors */
+.battery-level.green {
+    background-color: var(--status-green);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+.battery-level.yellow {
+    background-color: var(--status-yellow);
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+}
+
+.battery-level.red {
+    background-color: var(--status-red);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+}
+
+.blinking {
+    animation: blink-red 1s infinite alternate;
+}
+
+@keyframes blink-red {
+    0% { opacity: 1; }
+    100% { opacity: 0.3; }
+}
+
+/* Simulation Tools */
+.simulation-tools {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--border-color);
+}
+
+.simulation-tools label {
+    display: block;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.simulation-tools input[type="range"] {
+    width: 100%;
+    accent-color: var(--primary-color);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0 16px;
+    }
+    
+    .nav-title {
+        display: none; /* Hide on mobile to save space */
+    }
+    
+    .monitoring-grid {
+        grid-template-columns: 1fr;
+    }
+}

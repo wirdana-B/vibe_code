@@ -6,6 +6,8 @@ const app = new Elysia()
   .get("/", () => Bun.file("src/frontend/login.html"))
   .get("/login", () => Bun.file("src/frontend/login.html"))
   .get("/login.css", () => Bun.file("src/frontend/login.css"))
+  .get("/dashboard", () => Bun.file("src/frontend/dashboard.html"))
+  .get("/dashboard.css", () => Bun.file("src/frontend/dashboard.css"))
   .get("/users", async () => {
     return await db.select().from(users);
   })
