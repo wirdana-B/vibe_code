@@ -96,7 +96,7 @@
             } else {
                 passwordError.style.display = 'none';
                 passwordField.parentElement.classList.remove('error');
-                alert(`Simulasi Login Berhasil!\nEmail: ${emailVal}`);
+                window.location.href = '/dashboard';
             }
         });
         

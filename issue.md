@@ -1,40 +1,35 @@
-# Project Implementation Plan: ElysiaJS + Drizzle + MySQL Backend
+# Issue: Pembuatan Frontend Halaman Dashboard Sistem Monitoring
 
-## Overview
-This document outlines the high-level steps to set up a new backend service using Bun, ElysiaJS, Drizzle ORM, and MySQL.
+## Deskripsi
+Pembuatan antarmuka pengguna (UI) untuk halaman Dashboard Sistem Monitoring Robot. Halaman ini berfokus pada simulasi antarmuka pemantauan kondisi robot secara statis di sisi frontend, tanpa integrasi API secara langsung.
 
-## Technical Stack
-- **Runtime**: Bun
-- **Framework**: ElysiaJS
-- **ORM**: Drizzle ORM
-- **Database**: MySQL
+## Spesifikasi Desain & Komponen Visual
 
-## Implementation Steps
+### 1. Struktur Layout Dashboard
+- **Topbar/Navbar**:
+  - Berada di bagian atas dengan desain modern.
+  - Menampilkan logo instansi (Polibatam) bersanding dengan judul "Sistem Monitoring Robot".
+  - Di sebelah kanan menampilkan informasi pengguna yang sedang aktif (misal: "Operator - Wirdana") beserta tombol "Keluar" (Logout) kecil untuk kembali ke halaman awal.
+- **Latar Belakang**: Abu-abu sangat muda (light gray / soft off-white) agar terlihat premium dan *clean*.
 
-### 1. Project Initialization
-- Initialize a new Bun project in this directory.
-- Install the main dependencies: `elysia`, `drizzle-orm`, dan `mysql2`.
-- Install the development dependencies: `bun-types`, `drizzle-kit`.
+### 2. Komponen Monitoring Utama (Grid Layout)
+- **Card Posisi Robot**:
+  - Menampilkan teks informasi posisi (contoh: "Robot AGV-01: Zona Perakitan (X: 12.5, Y: 8.2)").
+  - Dilengkapi dengan indikator visual dekoratif seperti peta grid sederhana atau ikon robot.
+- **Card Status Battery (Baterai)**:
+  - Menampilkan persentase baterai robot saat ini (contoh: "Battery: 85%").
+  - Terdapat indikator progress bar dengan ketentuan:
+    - **Hijau**: Baterai di atas 50%.
+    - **Kuning**: Baterai antara 20% hingga 50%.
+    - **Merah Berkedip**: Baterai di bawah 20% (menggunakan animasi CSS *blinking*).
 
-### 2. Database Configuration & Schema
-- Setup file `.env` untuk menyimpan `DATABASE_URL` koneksi MySQL.
-- Buat konfigurasi Drizzle (`drizzle.config.ts`).
-- Definisikan file skema database dasar (misal `src/db/schema.ts`) dengan setidaknya satu tabel contoh (misalnya tabel `users`).
-- Buat file koneksi database (misal `src/db/index.ts`) untuk menghubungkan Drizzle dengan instance MySQL.
+### 3. Interaksi Tombol (Flow Navigasi)
+- Halaman Login sebelumnya dimodifikasi: jika pengguna berhasil masuk (melewati validasi), maka halaman diarahkan (*redirect*) ke Dashboard.
+- Menekan tombol "Keluar" pada Navbar di Dashboard akan membawa pengguna kembali ke halaman Login.
 
-### 3. API Setup (ElysiaJS)
-- Buat entry point aplikasi utama (misal `src/index.ts`).
-- Inisialisasi server ElysiaJS.
-- Buat endpoint dasar (misalnya route `GET /` untuk health check) dan pastikan berjalan lancar.
-- Integrasikan route Elysia dengan fungsi database untuk memastikan Drizzle dapat melakukan query (Contoh: endpoint untuk mengambil semua *users*).
-
-### 4. Scripts & Migrations Setup
-- Tambahkan script pada `package.json` untuk mempermudah development:
-  - `dev`: Menjalankan server lokal menggunakan `bun --watch`.
-  - `db:generate`: Untuk menghasilkan file migrasi database via Drizzle Kit.
-  - `db:push`: Untuk mendorong skema ke database MySQL (atau `db:migrate`).
-
-## Catatan Tambahan
-- Gunakan TypeScript secara *default* karena Bun dan Elysia sangat mendukung ekosistem ini.
-- Fokus pada struktur yang fungsional dan modular (pisahkan *routes*, *database schema*, dan *handlers* jika memungkinkan, tapi tidak perlu terlalu kompleks di tahap awal).
-- Pastikan untuk melakukan *testing* koneksi database sebelum lanjut ke logic yang lebih rumit.
+## File yang Diubah dan Dibuat
+- `issue.md` (Baru / Timpa)
+- `src/frontend/dashboard.html` (Baru)
+- `src/frontend/dashboard.css` (Baru)
+- `src/frontend/login.html` (Diperbarui)
+- `src/index.ts` (Diperbarui untuk routing frontend)
