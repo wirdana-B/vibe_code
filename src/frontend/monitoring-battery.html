@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring Status Baterai Robot - Sistem Monitoring Robot</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/monitoring-battery.css">
+</head>
+<body>
+    <!-- Topbar / Navbar -->
+    <nav class="navbar" id="main-navbar">
+        <div class="navbar-left">
+            <img src="https://www.polibatam.ac.id/wp-content/uploads/2024/01/cropped-cropped-01_Logo_1_Utama_Polibatam_Vertikal@2x.png" alt="Logo Polibatam" class="nav-logo">
+            <h1 class="nav-title">Sistem Monitoring Robot</h1>
+        </div>
+        <div class="navbar-right">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
+                <span class="user-name">Operator - Wirdana</span>
+            </div>
+            <!-- Logout Button redirects to root/login -->
+            <a href="/" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Keluar</a>
+        </div>
+    </nav>
+
+    <!-- Sub Navigation -->
+    <div class="sub-nav" id="sub-navigation">
+        <a href="/dashboard" id="nav-dashboard">
+            <i class="fa-solid fa-chart-line"></i> Dashboard
+        </a>
+        <a href="/monitoring-posisi" id="nav-monitoring-posisi">
+            <i class="fa-solid fa-location-crosshairs"></i> Monitoring Posisi
+        </a>
+        <a href="/monitoring-battery" class="active" id="nav-monitoring-battery">
+            <i class="fa-solid fa-bolt"></i> Monitoring Battery
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <main class="page-container">
+        <!-- Page Header -->
+        <header class="page-header" id="page-header">
+            <div class="page-header-icon"><i class="fa-solid fa-bolt"></i></div>
+            <div class="page-header-text">
+                <h1>Monitoring Status Baterai Robot</h1>
+                <p>Pemantauan kondisi, kesehatan, dan kapasitas baterai armada AGV secara real-time.</p>
+            </div>
+        </header>
+
+        <section class="monitoring-layout">
+            <!-- Indikator Utama Panel -->
+            <div class="panel-card">
+                <div class="panel-header">
+                    <h3><i class="fa-solid fa-car-battery"></i> Kapasitas Baterai: AGV-TZ01</h3>
+                </div>
+                <div class="panel-body battery-visual-panel">
+                    <!-- Circular Progress/Ring Indicator -->
+                    <div class="battery-ring critical"> <!-- can be 'optimal', 'warning', or 'critical' -->
+                        <svg class="progress-ring" width="220" height="220">
+                            <circle class="progress-ring-circle-bg" stroke="#e2e8f0" stroke-width="20" fill="transparent" r="90" cx="110" cy="110"/>
+                            <circle class="progress-ring-circle" stroke="var(--status-red)" stroke-width="20" fill="transparent" r="90" cx="110" cy="110"/>
+                        </svg>
+                        <div class="battery-percentage">
+                            <span class="value">15</span><span class="percent">%</span>
+                            <div class="status-text blink-text">Critical/Low</div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive controls for demo -->
+                    <div class="simulation-controls">
+                        <label for="battery-slider">Simulasi Level Baterai:</label>
+                        <input type="range" id="battery-slider" min="0" max="100" value="15">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detail & Riwayat Panel -->
+            <div class="panel-card">
+                <div class="panel-header">
+                    <h3><i class="fa-solid fa-heart-pulse"></i> Riwayat & Status Kesehatan</h3>
+                </div>
+                <div class="panel-body">
+                    <ul class="detail-list">
+                        <li class="detail-item">
+                            <span class="detail-label"><i class="fa-solid fa-plug"></i> Tegangan Aktual</span>
+                            <span class="detail-value" id="val-voltage">24.2 V</span>
+                        </li>
+                        <li class="detail-item">
+                            <span class="detail-label"><i class="fa-solid fa-bolt-lightning"></i> Arus Pengisian</span>
+                            <span class="detail-value" id="val-current">0.0 A (Discharging)</span>
+                        </li>
+                        <li class="detail-item">
+                            <span class="detail-label"><i class="fa-solid fa-temperature-half"></i> Suhu Baterai</span>
+                            <span class="detail-value" id="val-temp">32°C (Normal)</span>
+                        </li>
+                        <li class="detail-item">
+                            <span class="detail-label"><i class="fa-solid fa-arrows-spin"></i> Siklus Pengisian</span>
+                            <span class="detail-value" id="val-cycles">142 Siklus</span>
+                        </li>
+                        <li class="detail-item">
+                            <span class="detail-label"><i class="fa-solid fa-stethoscope"></i> Status Kesehatan</span>
+                            <span class="detail-value highlight-good" id="val-health">95% (Good)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const slider = document.getElementById('battery-slider');
+        const circle = document.querySelector('.progress-ring-circle');
+        const ringContainer = document.querySelector('.battery-ring');
+        const valueText = document.querySelector('.battery-percentage .value');
+        const statusText = document.querySelector('.status-text');
+        
+        // Circular progress calculation
+        const radius = circle.r.baseVal.value;
+        const circumference = radius * 2 * Math.PI;
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        
+        function setProgress(percent) {
+            const offset = circumference - (percent / 100) * circumference;
+            circle.style.strokeDashoffset = offset;
+            valueText.textContent = percent;
+            
+            // Update colors and status
+            ringContainer.classList.remove('optimal', 'warning', 'critical');
+            statusText.classList.remove('blink-text', 'text-green', 'text-yellow', 'text-red');
+            
+            if (percent >= 50) {
+                ringContainer.classList.add('optimal');
+                circle.setAttribute('stroke', 'var(--status-green)');
+                statusText.textContent = 'Aman / Optimal';
+                statusText.classList.add('text-green');
+            } else if (percent >= 20) {
+                ringContainer.classList.add('warning');
+                circle.setAttribute('stroke', 'var(--status-yellow)');
+                statusText.textContent = 'Peringatan / Lemah';
+                statusText.classList.add('text-yellow');
+            } else {
+                ringContainer.classList.add('critical');
+                circle.setAttribute('stroke', 'var(--status-red)');
+                statusText.textContent = 'Kritis / Low';
+                statusText.classList.add('blink-text', 'text-red');
+            }
+        }
+        
+        slider.addEventListener('input', (e) => {
+            setProgress(e.target.value);
+        });
+        
+        // Initial set
+        setProgress(slider.value);
+    </script>
+</body>
+</html>
