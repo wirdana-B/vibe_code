@@ -10,6 +10,8 @@ const app = new Elysia()
   .get("/dashboard.css", () => Bun.file("src/frontend/dashboard.css"))
   .get("/monitoring-posisi", () => Bun.file("src/frontend/monitoring-posisi.html"))
   .get("/monitoring-posisi.css", () => Bun.file("src/frontend/monitoring-posisi.css"))
+  .get("/monitoring-battery", () => Bun.file("src/frontend/monitoring-battery.html"))
+  .get("/monitoring-battery.css", () => Bun.file("src/frontend/monitoring-battery.css"))
   .get("/users", async () => {
     return await db.select().from(users);
   })
