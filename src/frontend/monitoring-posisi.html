@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring Posisi - Sistem Monitoring Robot</title>
+    <meta name="description" content="Pantau posisi real-time robot AGV pada denah lantai pabrik dengan koordinat aktual dan status gerak.">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/monitoring-posisi.css">
+</head>
+<body>
+    <!-- Topbar / Navbar -->
+    <nav class="navbar" id="main-navbar">
+        <div class="navbar-left">
+            <img src="https://www.polibatam.ac.id/wp-content/uploads/2024/01/cropped-cropped-01_Logo_1_Utama_Polibatam_Vertikal@2x.png" alt="Logo Polibatam" class="nav-logo">
+            <h1 class="nav-title">Sistem Monitoring Robot</h1>
+        </div>
+        <div class="navbar-right">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
+                <span class="user-name">Operator - Wirdana</span>
+            </div>
+            <!-- Logout Button redirects to root/login -->
+            <a href="/" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Keluar</a>
+        </div>
+    </nav>
+
+    <!-- Sub Navigation -->
+    <div class="sub-nav" id="sub-navigation">
+        <a href="/dashboard" id="nav-dashboard">
+            <i class="fa-solid fa-chart-line"></i> Dashboard
+        </a>
+        <a href="/monitoring-posisi" class="active" id="nav-monitoring-posisi">
+            <i class="fa-solid fa-location-crosshairs"></i> Monitoring Posisi
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <main class="page-container">
+        <!-- Page Header -->
+        <header class="page-header" id="page-header">
+            <div class="page-header-icon">
+                <i class="fa-solid fa-location-crosshairs"></i>
+            </div>
+            <div class="page-header-text">
+                <h1>Monitoring Posisi Robot</h1>
+                <p>Pantau posisi real-time unit AGV pada denah lantai pabrik.</p>
+            </div>
+        </header>
+
+        <!-- Two-Column Monitoring Layout -->
+        <div class="monitoring-layout">
+
+            <!-- LEFT: Factory Grid Map Panel -->
+            <div class="panel-card" id="grid-map-panel">
+                <div class="panel-header">
+                    <h3><i class="fa-solid fa-map-location-dot"></i> Denah Lantai Pabrik</h3>
+                    <div class="live-indicator" id="live-indicator">
+                        <span class="live-dot"></span>
+                        LIVE
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="factory-grid-map" id="factory-grid-map">
+
+                        <!-- Y-Axis Labels -->
+                        <span class="axis-label-y">Y</span>
+                        <div class="axis-y">
+                            <span>0</span>
+                            <span>5</span>
+                            <span>10</span>
+                            <span>15</span>
+                            <span>20</span>
+                            <span>25</span>
+                            <span>30</span>
+                        </div>
+
+                        <!-- X-Axis Labels -->
+                        <span class="axis-label-x">X</span>
+                        <div class="axis-x">
+                            <span>0</span>
+                            <span>5</span>
+                            <span>10</span>
+                            <span>15</span>
+                            <span>20</span>
+                            <span>25</span>
+                            <span>30</span>
+                            <span>35</span>
+                            <span>40</span>
+                        </div>
+
+                        <!-- Zone: Gudang -->
+                        <div class="zone zone-warehouse" id="zone-warehouse">
+                            <span class="zone-label"><i class="fa-solid fa-warehouse"></i> Gudang</span>
+                        </div>
+
+                        <!-- Zone: Ruang Perakitan Utama -->
+                        <div class="zone zone-assembly" id="zone-assembly">
+                            <span class="zone-label"><i class="fa-solid fa-gears"></i> Ruang Perakitan Utama</span>
+                        </div>
+
+                        <!-- Zone: Loading Dock -->
+                        <div class="zone zone-loading" id="zone-loading">
+                            <span class="zone-label"><i class="fa-solid fa-truck-loading"></i> Loading Dock</span>
+                        </div>
+
+                        <!-- Trail dots (robot path history) -->
+                        <div class="trail-dot" style="left: 42%; top: 55%;"></div>
+                        <div class="trail-dot" style="left: 47%; top: 52%;"></div>
+                        <div class="trail-dot" style="left: 51%; top: 50%;"></div>
+
+                        <!-- Robot Marker -->
+                        <div class="robot-marker" id="robot-marker" style="left: 55%; top: 48%;">
+                            <div class="robot-pulse-ring"></div>
+                            <div class="robot-pulse-ring"></div>
+                            <div class="robot-icon">
+                                <i class="fa-solid fa-robot"></i>
+                            </div>
+                            <span class="robot-tag">AGV-TZ01</span>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <span class="timestamp" id="map-timestamp">
+                        <i class="fa-regular fa-clock"></i> Terakhir diperbarui: <span id="last-updated-time">11 Jul 2026, 13:45:00</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- RIGHT: Coordinate Details Panel -->
+            <div class="panel-card" id="detail-panel">
+                <div class="panel-header">
+                    <h3><i class="fa-solid fa-clipboard-list"></i> Manifes Posisi</h3>
+                    <span class="status-badge-sm moving" id="status-badge">
+                        <i class="fa-solid fa-truck-fast"></i> Moving
+                    </span>
+                </div>
+                <div class="panel-body">
+
+                    <!-- Coordinate Summary Cards -->
+                    <div class="coord-summary" id="coord-summary">
+                        <div class="coord-card" id="coord-x-card">
+                            <div class="coord-axis">Koordinat X</div>
+                            <div class="coord-value" id="coord-x-value">24.50</div>
+                        </div>
+                        <div class="coord-card" id="coord-y-card">
+                            <div class="coord-axis">Koordinat Y</div>
+                            <div class="coord-value" id="coord-y-value">15.75</div>
+                        </div>
+                    </div>
+
+                    <!-- Detail List -->
+                    <div class="detail-section-title">Informasi Unit</div>
+                    <ul class="detail-list" id="detail-list">
+                        <li class="detail-item">
+                            <span class="detail-label">
+                                <i class="fa-solid fa-fingerprint"></i> ID Robot
+                            </span>
+                            <span class="detail-value highlight" id="detail-robot-id">AGV-TZ01</span>
+                        </li>
+                        <li class="detail-item">
+                            <span class="detail-label">
+                                <i class="fa-solid fa-crosshairs"></i> Koordinat Aktual
+                            </span>
+                            <span class="detail-value mono" id="detail-coordinates">X: 24.50, Y: 15.75</span>
+                        </li>
+                        <li class="detail-item">
+                            <span class="detail-label">
+                                <i class="fa-solid fa-map-pin"></i> Zona / Lokasi
+                            </span>
+                            <span class="detail-value" id="detail-zone">Ruang Perakitan Utama</span>
+                        </li>
+                        <li class="detail-item">
+                            <span class="detail-label">
+                                <i class="fa-solid fa-gauge-high"></i> Status Gerak
+                            </span>
+                            <span class="detail-value" id="detail-status">
+                                <span class="status-badge-sm moving">
+                                    <i class="fa-solid fa-truck-fast"></i> Bergerak (Moving)
+                                </span>
+                            </span>
+                        </li>
+                        <li class="detail-item">
+                            <span class="detail-label">
+                                <i class="fa-solid fa-route"></i> Kecepatan
+                            </span>
+                            <span class="detail-value mono" id="detail-speed">1.2 m/s</span>
+                        </li>
+                        <li class="detail-item">
+                            <span class="detail-label">
+                                <i class="fa-solid fa-compass"></i> Heading
+                            </span>
+                            <span class="detail-value mono" id="detail-heading">45.0°</span>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="panel-footer">
+                    <span class="timestamp">
+                        <i class="fa-solid fa-signal"></i> Koneksi stabil
+                    </span>
+                    <span class="timestamp">
+                        <i class="fa-solid fa-battery-three-quarters"></i> 85%
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Client-side Logic -->
+    <script>
+        // Update timestamp to current time
+        function updateTimestamp() {
+            const now = new Date();
+            const options = {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            const formatted = now.toLocaleDateString('id-ID', options);
+            const el = document.getElementById('last-updated-time');
+            if (el) el.textContent = formatted;
+        }
+
+        // Initial timestamp update
+        updateTimestamp();
+
+        // Update timestamp every second to simulate live data
+        setInterval(updateTimestamp, 1000);
+    </script>
+</body>
+</html>
