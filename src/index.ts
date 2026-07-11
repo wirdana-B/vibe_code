@@ -12,6 +12,8 @@ const app = new Elysia()
   .get("/monitoring-posisi.css", () => Bun.file("src/frontend/monitoring-posisi.css"))
   .get("/monitoring-battery", () => Bun.file("src/frontend/monitoring-battery.html"))
   .get("/monitoring-battery.css", () => Bun.file("src/frontend/monitoring-battery.css"))
+  .get("/history", () => Bun.file("src/frontend/history.html"))
+  .get("/history.css", () => Bun.file("src/frontend/history.css"))
   .get("/users", async () => {
     return await db.select().from(users);
   })
