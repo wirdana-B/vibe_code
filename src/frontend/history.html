@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Aktivitas & Log Robot - Sistem Monitoring Robot</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/history.css">
+</head>
+<body>
+    <!-- Topbar / Navbar -->
+    <nav class="navbar" id="main-navbar">
+        <div class="navbar-left">
+            <img src="https://www.polibatam.ac.id/wp-content/uploads/2024/01/cropped-cropped-01_Logo_1_Utama_Polibatam_Vertikal@2x.png" alt="Logo Polibatam" class="nav-logo">
+            <h1 class="nav-title">Sistem Monitoring Robot</h1>
+        </div>
+        <div class="navbar-right">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
+                <span class="user-name">Operator - Wirdana</span>
+            </div>
+            <!-- Logout Button redirects to root/login -->
+            <a href="/" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Keluar</a>
+        </div>
+    </nav>
+
+    <!-- Sub Navigation -->
+    <div class="sub-nav" id="sub-navigation">
+        <a href="/dashboard" id="nav-dashboard">
+            <i class="fa-solid fa-chart-line"></i> Dashboard
+        </a>
+        <a href="/monitoring-posisi" id="nav-monitoring-posisi">
+            <i class="fa-solid fa-location-crosshairs"></i> Monitoring Posisi
+        </a>
+        <a href="/monitoring-battery" id="nav-monitoring-battery">
+            <i class="fa-solid fa-bolt"></i> Monitoring Battery
+        </a>
+        <a href="/history" class="active" id="nav-history">
+            <i class="fa-solid fa-clock-rotate-left"></i> History
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <main class="page-container">
+        <!-- Page Header -->
+        <header class="page-header" id="page-header">
+            <div class="page-header-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+            <div class="page-header-text">
+                <h1>Riwayat Aktivitas & Log Robot</h1>
+                <p>Log rekam jejak operasional, perpindahan, dan status peringatan dari seluruh unit armada AGV.</p>
+            </div>
+        </header>
+
+        <section class="history-layout">
+            <div class="panel-card">
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <button class="filter-btn active" data-filter="all">Semua</button>
+                        <button class="filter-btn" data-filter="info">Info</button>
+                        <button class="filter-btn" data-filter="warning">Warning</button>
+                        <button class="filter-btn" data-filter="error">Error</button>
+                    </div>
+                    <div class="search-box">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Cari log atau ID...">
+                    </div>
+                </div>
+
+                <!-- Data Table -->
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Waktu (Timestamp)</th>
+                                <th>ID Robot</th>
+                                <th>Jenis Aktivitas / Event</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Sample Row: Info -->
+                            <tr>
+                                <td>#L-1045</td>
+                                <td class="time-col">2026-07-11 21:52:14</td>
+                                <td class="robot-id"><i class="fa-solid fa-robot"></i> AGV-TZ01</td>
+                                <td>Pindah Zona ke Area Perakitan</td>
+                                <td><span class="badge badge-success">Info</span></td>
+                            </tr>
+                            <!-- Sample Row: Info -->
+                            <tr>
+                                <td>#L-1044</td>
+                                <td class="time-col">2026-07-11 21:40:05</td>
+                                <td class="robot-id"><i class="fa-solid fa-robot"></i> AGV-TZ02</td>
+                                <td>Selesai Pengisian Daya (100%)</td>
+                                <td><span class="badge badge-success">Info</span></td>
+                            </tr>
+                            <!-- Sample Row: Warning -->
+                            <tr>
+                                <td>#L-1043</td>
+                                <td class="time-col">2026-07-11 21:15:30</td>
+                                <td class="robot-id"><i class="fa-solid fa-robot"></i> AGV-TZ01</td>
+                                <td>Baterai Lemah (45%)</td>
+                                <td><span class="badge badge-warning">Warning</span></td>
+                            </tr>
+                            <!-- Sample Row: Error -->
+                            <tr>
+                                <td>#L-1042</td>
+                                <td class="time-col">2026-07-11 20:50:11</td>
+                                <td class="robot-id"><i class="fa-solid fa-robot"></i> AGV-TZ03</td>
+                                <td>Emergency Stop / Keluar Jalur</td>
+                                <td><span class="badge badge-error">Error</span></td>
+                            </tr>
+                            <!-- Sample Row: Info -->
+                            <tr>
+                                <td>#L-1041</td>
+                                <td class="time-col">2026-07-11 20:30:00</td>
+                                <td class="robot-id"><i class="fa-solid fa-robot"></i> AGV-TZ01</td>
+                                <td>Mulai Operasional Sesi Malam</td>
+                                <td><span class="badge badge-success">Info</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination-bar">
+                    <span class="pagination-info">Showing 1-5 of 50 entries</span>
+                    <div class="pagination-controls">
+                        <button class="page-btn disabled"><i class="fa-solid fa-chevron-left"></i> Previous</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <span class="page-dots">...</span>
+                        <button class="page-btn">10</button>
+                        <button class="page-btn">Next <i class="fa-solid fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Simple interactivity for Filter buttons
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                // Real filtering would be implemented here connecting to backend or DOM manipulation
+            });
+        });
+    </script>
+</body>
+</html>
