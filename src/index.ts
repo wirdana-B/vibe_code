@@ -83,6 +83,53 @@ const app = new Elysia()
 
     return { success: true, message: "Pendaftaran berhasil" };
   })
+  .get("/forgot-password", () => Bun.file("src/frontend/forgot-password.html"))
+  .get("/forgot-password.css", () => Bun.file("src/frontend/forgot-password.css"))
+  .get("/reset-password", () => Bun.file("src/frontend/reset-password.html"))
+  .get("/reset-password.css", () => Bun.file("src/frontend/reset-password.css"))
+  .post("/api/forgot-password", async ({ body, set }) => {
+    const data = body as Record<string, string>;
+    const email = data?.email;
+
+    if (!email) {
+      set.status = 400;
+      return { success: false, message: "Email diperlukan" };
+    }
+
+    const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+    
+    if (result.length === 0) {
+      set.status = 404;
+      return { success: false, message: "Email tidak terdaftar" };
+    }
+
+    return { success: true, message: "Email ditemukan, silakan reset password" };
+  })
+  .post("/api/reset-password", async ({ body, set }) => {
+    const data = body as Record<string, string>;
+    const email = data?.email;
+    const password = data?.password;
+
+    if (!email || !password) {
+      set.status = 400;
+      return { success: false, message: "Email dan password diperlukan" };
+    }
+
+    const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+    
+    if (result.length === 0) {
+      set.status = 404;
+      return { success: false, message: "Email tidak terdaftar" };
+    }
+
+    const hashedPassword = await Bun.password.hash(password);
+
+    await db.update(users)
+      .set({ password: hashedPassword })
+      .where(eq(users.email, email));
+
+    return { success: true, message: "Password berhasil direset" };
+  })
   .listen(3000);
 
 console.log(
