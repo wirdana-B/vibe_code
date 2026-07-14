@@ -7,6 +7,8 @@ const app = new Elysia()
   .get("/", () => Bun.file("src/frontend/login.html"))
   .get("/login", () => Bun.file("src/frontend/login.html"))
   .get("/login.css", () => Bun.file("src/frontend/login.css"))
+  .get("/register", () => Bun.file("src/frontend/register.html"))
+  .get("/register.css", () => Bun.file("src/frontend/register.css"))
   .get("/dashboard", () => Bun.file("src/frontend/dashboard.html"))
   .get("/dashboard.css", () => Bun.file("src/frontend/dashboard.css"))
   .get("/monitoring-posisi", () => Bun.file("src/frontend/monitoring-posisi.html"))
@@ -38,14 +40,48 @@ const app = new Elysia()
       return { success: false, message: "Email tidak ditemukan" };
     }
 
-    // Prototipe sederhana: verifikasi string biasa
-    // (Bisa diganti dengan bcrypt/Bun.password.verify jika di-hash)
-    if (user.password !== password) {
+    // Verifikasi password yang sudah di-hash
+    const isValid = await Bun.password.verify(password, user.password);
+    if (!isValid) {
       set.status = 401;
       return { success: false, message: "Password salah" };
     }
 
     return { success: true, message: "Login berhasil" };
+  })
+  .post("/api/register", async ({ body, set }) => {
+    const data = body as Record<string, string>;
+    const nama = data?.nama;
+    const email = data?.email;
+    const password = data?.password;
+    const konfirmasi_password = data?.konfirmasi_password;
+
+    if (!nama || !email || !password || !konfirmasi_password) {
+      set.status = 400;
+      return { success: false, message: "Semua field harus diisi" };
+    }
+
+    if (password !== konfirmasi_password) {
+      set.status = 400;
+      return { success: false, message: "Password dan konfirmasi tidak cocok" };
+    }
+
+    const existingUsers = await db.select().from(users).where(eq(users.email, email)).limit(1);
+    if (existingUsers.length > 0) {
+      set.status = 400;
+      return { success: false, message: "Email sudah terdaftar" };
+    }
+
+    const hashedPassword = await Bun.password.hash(password);
+
+    await db.insert(users).values({
+      nama,
+      email,
+      password: hashedPassword,
+      role: "user"
+    });
+
+    return { success: true, message: "Pendaftaran berhasil" };
   })
   .listen(3000);
 
