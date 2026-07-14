@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengaturan Profil & Akun - Sistem Monitoring Robot</title>
+    <meta name="description" content="Kelola informasi profil, keamanan akun, dan hak akses pada Sistem Monitoring Robot Polibatam.">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/profile.css">
+</head>
+<body>
+    <!-- Topbar / Navbar -->
+    <nav class="navbar" id="main-navbar">
+        <div class="navbar-left">
+            <img src="https://www.polibatam.ac.id/wp-content/uploads/2024/01/cropped-cropped-01_Logo_1_Utama_Polibatam_Vertikal@2x.png" alt="Logo Polibatam" class="nav-logo">
+            <h1 class="nav-title">Sistem Monitoring Robot</h1>
+        </div>
+        <div class="navbar-right">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
+                <span class="user-name">Operator - Wirdana</span>
+            </div>
+            <!-- Logout Button redirects to root/login -->
+            <a href="/" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Keluar</a>
+        </div>
+    </nav>
+
+    <!-- Sub Navigation -->
+    <div class="sub-nav" id="sub-navigation">
+        <a href="/dashboard" id="nav-dashboard">
+            <i class="fa-solid fa-chart-line"></i> Dashboard
+        </a>
+        <a href="/monitoring-posisi" id="nav-monitoring-posisi">
+            <i class="fa-solid fa-location-crosshairs"></i> Monitoring Posisi
+        </a>
+        <a href="/monitoring-battery" id="nav-monitoring-battery">
+            <i class="fa-solid fa-bolt"></i> Monitoring Battery
+        </a>
+        <a href="/history" id="nav-history">
+            <i class="fa-solid fa-clock-rotate-left"></i> History
+        </a>
+        <a href="/profile" class="active" id="nav-profile">
+            <i class="fa-solid fa-user-gear"></i> Profile
+        </a>
+    </div>
+
+    <!-- Main Content -->
+    <main class="page-container">
+        <!-- Page Header -->
+        <header class="page-header" id="page-header">
+            <div class="page-header-icon"><i class="fa-solid fa-user-gear"></i></div>
+            <div class="page-header-text">
+                <h1>Pengaturan Profil & Akun</h1>
+                <p>Kelola informasi pribadi, keamanan akun, dan hak akses Anda.</p>
+            </div>
+        </header>
+
+        <section class="profile-layout">
+
+            <!-- Card A: Informasi Profil -->
+            <div class="panel-card" id="profile-info-card">
+                <div class="panel-card-header">
+                    <i class="fa-solid fa-id-badge"></i>
+                    <h2>Informasi Profil</h2>
+                </div>
+                <div class="panel-card-body">
+                    <div class="profile-info">
+                        <div class="profile-avatar" id="profile-avatar">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div class="profile-details">
+                            <span class="profile-name" id="profile-name">Wirdana</span>
+                            <span class="profile-email"><i class="fa-solid fa-envelope"></i> wirdana@polibatam.ac.id</span>
+                            <span class="role-badge role-user" id="role-badge">
+                                <i class="fa-solid fa-user"></i> Operator
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card B: Pengaturan Akun -->
+            <div class="panel-card" id="account-settings-card">
+                <div class="panel-card-header">
+                    <i class="fa-solid fa-gear"></i>
+                    <h2>Pengaturan Akun</h2>
+                </div>
+                <div class="panel-card-body">
+                    <div class="settings-list">
+                        <div class="setting-row" id="btn-edit-profile">
+                            <div class="setting-row-left">
+                                <div class="setting-icon">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </div>
+                                <div class="setting-text">
+                                    <h3>Edit Profil</h3>
+                                    <p>Ubah nama, foto, dan informasi pribadi Anda.</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right setting-chevron"></i>
+                        </div>
+                        <div class="setting-row" id="btn-change-password">
+                            <div class="setting-row-left">
+                                <div class="setting-icon">
+                                    <i class="fa-solid fa-lock"></i>
+                                </div>
+                                <div class="setting-text">
+                                    <h3>Ganti Password</h3>
+                                    <p>Perbarui kata sandi untuk keamanan akun Anda.</p>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-chevron-right setting-chevron"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card C: Manajemen Hak Akses -->
+            <div class="panel-card" id="role-management-card">
+                <div class="panel-card-header">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h2>Manajemen Hak Akses</h2>
+                </div>
+                <div class="panel-card-body">
+                    <div class="role-management">
+                        <div class="role-selector">
+                            <label for="role-select">Pilih Role Aktif:</label>
+                            <select class="role-select" id="role-select">
+                                <option value="user" selected>👤 User Biasa</option>
+                                <option value="admin">🛡️ Admin</option>
+                            </select>
+                        </div>
+                        <div class="role-warning" id="role-warning">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <span>Perubahan role hanya bersifat simulasi dan tidak disimpan ke server.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card D: Logout -->
+            <div class="panel-card" id="logout-card">
+                <div class="logout-section">
+                    <a href="/" class="logout-button" id="btn-logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Keluar dari Akun
+                    </a>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Client-side Logic -->
+    <script>
+        // ========== Role Toggle Simulation ==========
+        const roleSelect = document.getElementById('role-select');
+        const roleBadge = document.getElementById('role-badge');
+
+        roleSelect.addEventListener('change', function () {
+            const selectedRole = this.value;
+
+            if (selectedRole === 'admin') {
+                roleBadge.className = 'role-badge role-admin';
+                roleBadge.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Admin';
+            } else {
+                roleBadge.className = 'role-badge role-user';
+                roleBadge.innerHTML = '<i class="fa-solid fa-user"></i> Operator';
+            }
+        });
+    </script>
+</body>
+</html>
