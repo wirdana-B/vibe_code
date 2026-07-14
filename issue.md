@@ -45,3 +45,11 @@ Tolong lakukan hal berikut secara bertahap:
 - **File Backend Utama:** `src/index.ts`
 - **File Tampilan Login:** `src/frontend/login.html`
 - **Framework & Tools:** ElysiaJS, Drizzle ORM, MySQL Database, Bun Password Hashing.
+## 🔜 Rencana Lupa Password (Forgot Password)
+
+- [ ] Buat halaman `forgot-password.html` dengan form input email.
+- [ ] Tambahkan route `GET /forgot-password` dan `GET /forgot-password.css` di `src/index.ts`.
+- [ ] Implementasikan endpoint `POST /api/forgot-password` yang mengirim email reset password (placeholder).
+- [ ] Integrasikan UI pada `login.html` dengan link "Lupa password?" yang mengarah ke `/forgot-password`.
+- [ ] Dokumentasikan alur kerja di file `issue.md` untuk referensi tim.
+

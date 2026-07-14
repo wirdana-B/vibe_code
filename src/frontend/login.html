@@ -84,19 +84,42 @@
         const form = document.querySelector('#login-form');
         const passwordError = document.querySelector('#password-error');
 
-        form.addEventListener('submit', function (e) {
+        form.addEventListener('submit', async function (e) {
             e.preventDefault(); // Prevent page reload
             const emailVal = document.querySelector('#email').value;
             const passVal = passwordField.value;
 
             // Simple validation check
             if (passVal.trim() === '') {
+                passwordError.textContent = '* Password tidak boleh kosong.';
                 passwordError.style.display = 'block';
                 passwordField.parentElement.classList.add('error');
             } else {
-                passwordError.style.display = 'none';
-                passwordField.parentElement.classList.remove('error');
-                window.location.href = '/dashboard';
+                try {
+                    const response = await fetch('/api/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ email: emailVal, password: passVal })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (!response.ok || !result.success) {
+                        passwordError.textContent = '* ' + (result.message || 'Login gagal.');
+                        passwordError.style.display = 'block';
+                        passwordField.parentElement.classList.add('error');
+                    } else {
+                        passwordError.style.display = 'none';
+                        passwordField.parentElement.classList.remove('error');
+                        window.location.href = '/dashboard';
+                    }
+                } catch (err) {
+                    passwordError.textContent = '* Terjadi kesalahan jaringan.';
+                    passwordError.style.display = 'block';
+                    passwordField.parentElement.classList.add('error');
+                }
             }
         });
         

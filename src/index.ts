@@ -22,6 +22,33 @@ const app = new Elysia()
   .get("/users", async () => {
     return await db.select().from(users);
   })
+  .post("/api/login", async ({ body, set }) => {
+    const data = body as Record<string, string>;
+    const email = data?.email;
+    const password = data?.password;
+
+    if (!email || !password) {
+      set.status = 400;
+      return { success: false, message: "Email dan password diperlukan" };
+    }
+
+    const result = await db.select().from(users).where(eq(users.email, email)).limit(1);
+    const user = result[0];
+
+    if (!user) {
+      set.status = 401;
+      return { success: false, message: "Email tidak ditemukan" };
+    }
+
+    // Verifikasi password yang sudah di-hash
+    const isValid = await Bun.password.verify(password, user.password);
+    if (!isValid) {
+      set.status = 401;
+      return { success: false, message: "Password salah" };
+    }
+
+    return { success: true, message: "Login berhasil" };
+  })
   .post("/api/register", async ({ body, set }) => {
     const data = body as Record<string, string>;
     const nama = data?.nama;
